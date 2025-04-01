@@ -6,7 +6,12 @@
     "test": "tsc --noEmit && prettier --check .",
     "dev": "vite",
     "build": "vite build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:schools": "npm run db:schools:download && npm run db:schools:import",
+    "db:municipalities": "npm run db:municipalities:download && npm run db:municipalities:import",
+    "db:municipalities:download": "download --extract --out tmp/ https://nedlasting.geonorge.no/geonorge/Basisdata/Kommuner/POSTGIS/Basisdata_0000_Norge_25833_Kommuner_POSTGIS.zip",
+    "db:municipalities:import": "docker exec -i /postgis /usr/bin/psql --user postgres < tmp/Basisdata_0000_Norge_25833_Kommuner_PostGIS.sql",
+    "postinstall": "cd server && npm install --include=dev"
   },
   "repository": {
     "type": "git",
@@ -23,6 +28,7 @@
   "devDependencies": {
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
+    "download-cli": "^1.1.1",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
